@@ -1,0 +1,47 @@
+# ## General ##
+
+# Dependencies
+# Ignore node_modules folder in all subdirectories
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-lock.yaml
+
+# Environment Variables - IMPORTANT!
+# Never commit your secrets files.
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE / Editor specific files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+
+# ## Frontend (Client - Vite/React) ##
+
+# Build output
+dist/
+dist-ssr/
+
+# Vite cache
+.vite/
+
+# Test reports
+coverage/
