@@ -1,0 +1,20 @@
+/* Basic reset and box-sizing */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Global font settings */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Basic layout for a full-height page */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
