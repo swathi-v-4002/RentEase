@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Item = require('../models/item.model');
 const auth = require('../middleware/auth'); // Import our auth middleware
+const Category = require('../models/category.model');
 
 // @route   POST /api/items
 // @desc    Create a new rental item
@@ -38,6 +39,54 @@ router.get('/', async (req, res) => {
   }
 });
 
+// @route   GET /api/items/search
+// @desc    Search for items by name, description, or category name
+// @access  Public
+router.get('/search', async (req, res) => {
+  try {
+    console.log("Search backend hit");
+    const { q } = req.query;
+    console.log("Search query:", q);
+    
+    if (!q || q.trim() === '') {
+      return res.status(400).json({ message: 'Search query is required' });
+    }
+
+    // Step 1: Find categories that match the search term
+    console.log("Searching for categories...");
+    const categories = await Category.find({
+      name: { $regex: q.trim(), $options: 'i' }
+    }).select('_id');
+    console.log("Found categories:", categories);
+
+    const categoryIds = categories.map(cat => cat._id);
+    console.log("Category IDs:", categoryIds);
+
+    // Step 2: Search Items
+    const searchCriteria = {
+      $or: [
+        { itemName: { $regex: q.trim(), $options: 'i' } },
+        { description: { $regex: q.trim(), $options: 'i' } },
+        { category: { $in: categoryIds } }
+      ]
+    };
+    console.log("Before Item.find()");
+
+    const items = await Item.find(searchCriteria)
+      .populate('category', 'name')
+      .sort({ createdAt: -1 });
+    console.log("Found items:", items);
+    res.json(items);
+
+  } catch (error) {
+    console.error('Search error:', error);
+    res.status(500).json({ 
+      message: 'Server error during search',
+      error: error.message 
+    });
+  }
+});
+
 // @route   GET /api/items/:id
 // @desc    Get a single item by ID
 // @access  Public
@@ -52,9 +101,6 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
-
-// ... in routes/items.js, after the GET by ID route
 
 // @route   DELETE /api/items/:id
 // @desc    Delete an item
@@ -84,5 +130,7 @@ router.delete('/:id', auth, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+
 
 module.exports = router;

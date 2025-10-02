@@ -1,14 +1,24 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 function Navbar() {
   const { token, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const onLogout = () => {
     logout();
     navigate("/login");
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      // Navigate to search results page with query parameter
+      navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+      setSearchTerm(""); // Clear search input after search
+    }
   };
 
   const authLinks = (
@@ -33,6 +43,21 @@ function Navbar() {
         RentEase
       </Link>
       <Link to="/">Home</Link>
+
+      {/* Search Form */}
+      <form onSubmit={handleSearch} className="search-form">
+        <input
+          type="text"
+          placeholder="Search items..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+        <button type="submit" className="search-button">
+          Search
+        </button>
+      </form>
+
       {token ? authLinks : guestLinks}
     </nav>
   );

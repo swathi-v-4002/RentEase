@@ -4,6 +4,11 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config(); // Load environment variables from .env file
 
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  // Application specific logging, throwing an error, or other logic here
+});
+
 // Initialize the app
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -26,8 +31,7 @@ app.get('/', (req, res) => {
 });
 
 // Define Routes
-const usersRouter = require('./routes/users');
-app.use('/api/users', usersRouter);
+app.use('/api/users', require('./routes/users'));
 app.use('/api/categories', require('./routes/categories'));
 app.use('/api/items', require('./routes/items')); 
 app.use('/api/rentals', require('./routes/rentals')); 

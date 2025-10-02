@@ -14,6 +14,7 @@ function ItemDetailsPage() {
       try {
         const res = await axios.get(`/api/items/${id}`);
         setItem(res.data);
+        console.log("item:", res.data);
       } catch (error) {
         console.error("Failed to fetch item", error);
       }
