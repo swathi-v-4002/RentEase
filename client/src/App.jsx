@@ -13,13 +13,13 @@ import SearchResultsPage from "./pages/SearchResultsPage";
 function App() {
   return (
     <div>
-      <Navbar />
+      <Navbar searchTerm /> 
       <main style={{ padding: "20px" }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/search" element={<SearchResultsPage />} />
+          <Route path="/search" element={<SearchResultsPage />} /> 
           <Route path="/item/:id" element={<ItemDetailsPage />} />
           <Route
             path="/my-rentals"
