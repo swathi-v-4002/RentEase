@@ -5,6 +5,7 @@ const itemSchema = new Schema({
   itemName: { type: String, required: true, trim: true },
   description: { type: String, required: true },
   rentalPrice: { type: Number, required: true },
+  imageUrl: { type: String, required: true },
   availabilityStatus: {
     type: String,
     required: true,

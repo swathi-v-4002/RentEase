@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import Swal from "sweetalert2";
 
 function CreateItemPage() {
+  const { token } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     itemName: "",
     description: "",
     rentalPrice: "",
     category: "",
   });
+  const [file, setFile] = useState(null);
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
 
@@ -33,17 +37,46 @@ function CreateItemPage() {
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  const onFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (!file) {
+      Swal.fire("Error", "Please upload an image for the item.", "error");
+      return;
+    }
+    const data = new FormData();
+    data.append("itemImage", file);
+    data.append("itemName", itemName);
+    data.append("description", description);
+    data.append("rentalPrice", rentalPrice);
+    data.append("category", category);
     try {
-      await axios.post("/api/items", formData);
-      alert("Item listed successfully!");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          // 'Content-Type': 'multipart/form-data' <-- Axios sets this automatically with FormData
+        },
+      };
+      await axios.post("/api/items", data, config);
+      Swal.fire("Success!", "Item listed successfully!", "success");
       navigate("/");
     } catch (error) {
       console.error(error.response.data);
-      alert("Failed to list item.");
+      Swal.fire("Error", "Failed to list item.", "error");
     }
   };
+  //   try {
+  //     await axios.post("/api/items", formData);
+  //     alert("Item listed successfully!");
+  //     navigate("/");
+  //   } catch (error) {
+  //     console.error(error.response.data);
+  //     alert("Failed to list item.");
+  //   }
+  // };
 
   return (
     <div className="form-container">
@@ -57,6 +90,16 @@ function CreateItemPage() {
             value={itemName}
             onChange={onChange}
             required
+          />
+        </div>
+        <div className="form-group">
+          <label>Item Image</label>
+          <input
+            type="file"
+            name="itemImage"
+            onChange={onFileChange}
+            required
+            style={{ padding: "10px", border: "none" }}
           />
         </div>
         <div className="form-group">

@@ -2,20 +2,31 @@ const router = require('express').Router();
 const Item = require('../models/item.model');
 const auth = require('../middleware/auth'); // Import our auth middleware
 const Category = require('../models/category.model');
+const upload = require('../config/cloudinary');
 
 // @route   POST /api/items
 // @desc    Create a new rental item
 // @access  Private
-router.post('/', auth, async (req, res) => { // 'auth' is our middleware
+//
+// <-- 2. ADD THE UPLOAD MIDDLEWARE
+router.post('/', auth, upload.single('itemImage'), async (req, res) => {
   try {
     const { itemName, description, rentalPrice, category } = req.body;
+
+    // <-- 3. GET THE FILE URL FROM CLOUDINARY
+    const imageUrl = req.file.path;
+
+    if (!imageUrl) {
+      return res.status(400).json({ msg: 'Image upload failed.' });
+    }
 
     const newItem = new Item({
       itemName,
       description,
       rentalPrice,
       category,
-      owner: req.user.id // We get this from the auth middleware
+      imageUrl, // <-- 4. ADD IT TO THE NEW ITEM
+      owner: req.user.id
     });
 
     const item = await newItem.save();

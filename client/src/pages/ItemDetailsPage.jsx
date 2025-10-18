@@ -118,13 +118,11 @@ function ItemDetailsPage() {
   return (
     <div className="item-details-container">
       <div className="item-details-card">
-        {item.imageUrl && (
-          <img
-            src={item.imageUrl}
-            alt={item.itemName}
-            className="item-details-img"
-          />
-        )}
+        <img
+          src={item.imageUrl}
+          alt={item.itemName}
+          className="item-details-img"
+        />
         <div className="item-details-content">
           <h1 className="item-details-title">{item.itemName}</h1>
           <p className="item-details-desc">{item.description}</p>
