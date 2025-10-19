@@ -6,7 +6,6 @@ function Navbar() {
   const { token, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
-
   const onLogout = () => {
     logout();
     navigate("/login");
@@ -22,30 +21,31 @@ function Navbar() {
   };
 
   const authLinks = (
-    <>
-      {/* We will add links to 'My Listings' and 'Create Listing' here later */}
-      <Link to="/my-rentals">My Rentals</Link>
-      <Link to="/create-item">Create Listing</Link>
-      <button onClick={onLogout}>Logout</button>
-    </>
-  );
-
-  const guestLinks = (
-    <>
+  <div className="nav-links">
+    <Link to="/my-rentals">My Rentals</Link>
+    <Link to="/create-item">Create Listing</Link>
+    <button onClick={onLogout} className="logout-button">Logout</button>
+  </div>
+);
+  const guestLinks = (    
+    <div className="nav-links">
       <Link to="/login">Login</Link>
       <Link to="/register">Register</Link>
-    </>
+    </div>
   );
 
   return (
     <nav className="navbar">
-      <Link to="/" style={{ marginRight: "auto", fontWeight: "bold" }}>
-        RentEase
-      </Link>
-      <Link to="/">Home</Link>
+      <div className="navbar-left">
+         <Link to="/" className="navbar-brand">RentEase</Link>
+        <Link to="/" className="nav-home">Home</Link>
+      </div>
+      
 
       {/* Search Form */}
-      <form onSubmit={handleSearch} className="search-form">
+      <form onSubmit={handleSearch} onChange={(event) => {
+        setSearchTerm(event.target.value);
+      }} className="search-form">
         <input
           type="text"
           placeholder="Search items..."
@@ -57,8 +57,11 @@ function Navbar() {
           Search
         </button>
       </form>
+     <div className="navbar-right">
 
+     
       {token ? authLinks : guestLinks}
+      </div>
     </nav>
   );
 }

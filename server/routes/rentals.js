@@ -44,22 +44,22 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-// @route   GET api/rentals/myrentals
-// @desc    Get all rentals for the logged-in user
-// @access  Private
-router.get('/myrentals', auth, async (req, res) => {
-  try {
-    const rentals = await Rental.find({ renter: req.user.id })
-      .populate({
-        path: 'item',
-        select: 'itemName rentalPrice' // Only get the fields we need
-      });
-    res.json(rentals);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
+// // @route   GET api/rentals/myrentals
+// // @desc    Get all rentals for the logged-in user
+// // @access  Private
+// router.get('/myrentals', auth, async (req, res) => {
+//   try {
+//     const rentals = await Rental.find({ renter: req.user.id })
+//       .populate({
+//         path: 'item',
+//         select: 'itemName rentalPrice' // Only get the fields we need
+//       });
+//     res.json(rentals);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send('Server Error');
+//   }
+// });
 
 // @route   DELETE api/rentals/:id
 // @desc    Delete a rental (cancel/un-rent)
@@ -86,6 +86,24 @@ router.delete('/:id', auth, async (req, res) => {
     await rental.deleteOne();
 
     res.json({ msg: 'Rental successfully cancelled' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   GET api/rentals/myrentals
+// ...
+router.get('/myrentals', auth, async (req, res) => {
+  try {
+    const rentals = await Rental.find({ renter: req.user.id })
+      .populate({
+        path: 'item',
+        select: 'itemName' // We just need the name
+      })
+      .select('item totalCost createdAt rentalStatus'); // Ensure rentalStatus is selected
+
+    res.json(rentals);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

@@ -2,18 +2,17 @@
 
 /* 1. FONT IMPORT */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 
 /* 2. COLOR & FONT VARIABLES */
 :root {
-  --primary-color: #5e72e4;
-  --primary-hover-color: #4a5cc4;
-  --danger-color: #f5365c;
-  --danger-hover-color: #ec0d3a;
-  --background-color: #172b4d;
-  --surface-color: #1f3a68;
-  --text-color: #e9ecef;
-  --subtle-text-color: #adb5bd;
-  --border-color: #2c4a81;
+  --primary-color: #7c3aed;      /* Purple accent */
+  --primary-hover-color: #6d28d9;
+  --background-color: #f9fafb;   /* Light gray background */
+  --surface-color: #ffffff;      /* Card white */
+  --text-color: #111827;         /* Dark text */
+  --subtle-text-color: #6b7280;  /* Muted gray */
+  --border-color: #e5e7eb;       /* Light border */
 
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
@@ -28,14 +27,14 @@ body {
 }
 
 #root {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
 }
 
 h1, h2, h3 {
   font-weight: 700;
-  color: #ffffff;
+  color: #111827;
 }
 
 a {
@@ -47,153 +46,661 @@ a:hover {
   color: var(--primary-hover-color);
 }
 
-/* 4. COMPONENT STYLES (We will use these classNames in React) */
+/* 4. COMPONENT STYLES */
 
 /* Buttons */
 .btn {
   display: inline-block;
   font-weight: 500;
-  color: var(--text-color);
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  background-color: transparent;
-  border: 1px solid transparent;
-  padding: 0.625rem 1.25rem;
-  font-size: 1rem;
-  border-radius: 0.375rem;
-  transition: all 0.2s ease-in-out;
-}
-
-.btn-primary {
   color: #fff;
   background-color: var(--primary-color);
-  border-color: var(--primary-color);
-}
-.btn-primary:hover {
-  background-color: var(--primary-hover-color);
-  border-color: var(--primary-hover-color);
-}
-
-.btn-danger {
-  color: #fff;
-  background-color: var(--danger-color);
-  border-color: var(--danger-color);
-}
-.btn-danger:hover {
-  background-color: var(--danger-hover-color);
-  border-color: var(--danger-hover-color);
-}
-
-/* Forms */
-.form-container {
-  background-color: var(--surface-color);
-  padding: 2rem;
-  border-radius: 6px;
-  max-width: 500px;
-  margin: 2rem auto;
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
-  display: block;
-  width: 100%;
-  padding: 0.75rem;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  padding: 0.625rem 1.25rem;
   font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: var(--text-color);
-  background-color: var(--background-color);
-  border: 1px solid var(--border-color);
-  border-radius: 0.375rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+.btn:hover {
+  background-color: var(--primary-hover-color);
 }
 
-.form-group input:focus {
-  border-color: var(--primary-color);
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(94, 114, 228, 0.25);
+/* Search Bar */
+.search-form {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  max-width: 450px;
+  margin: 0 2rem;
+  background: #f9fafb;
+  border: 1px solid var(--border-color);
+  border-radius: 50px;
+  padding: 0.25rem 0.5rem;
 }
+.search-input,
+.search-select {
+flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+ 
+}
+.search-button {
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+.search-button:hover {
+  background: var(--primary-hover-color);
+}
+
 
 /* Item Cards */
 .item-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0;
+  max-width: 1200px;   /* keeps it neat on big screens */
+  margin: 0 auto;  
 }
 
 .item-card {
   background-color: var(--surface-color);
   border: 1px solid var(--border-color);
-  border-radius: 6px;
-  padding: 1.5rem;
-  text-align: left;
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  border-radius: 1rem;
+  overflow: hidden;
+ box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+.item-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
 }
 
-.item-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 7px 14px rgba(0,0,0,0.2);
+.item-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.item-card-content {
+  padding: 1.25rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .item-card h2 {
-  margin-top: 0;
-  color: #fff;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-color);
+  text-transform: capitalize;
+  text-align: center;
 }
 
 .item-card p {
+  margin: 0.25rem 0;
   color: var(--subtle-text-color);
+  font-size: 1rem;
+  margin-left: 1rem;
+}
+.item-card p strong {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.item-card .btn {
+  margin-top: 1rem;
+  width: 100%;
+  background: var(--primary-color);
+  border-radius: 0.6rem;
+  font-weight: 500;
+  transition: background 0.2s ease-in-out;
+}
+
+.item-card .btn:hover {
+  background: var(--primary-hover-color);
 }
 
 /* Navbar */
 .navbar {
   display: flex;
   align-items: center;
-  padding: 1rem 0;
+  justify-content: space-between;
+  background: #fff;
+  padding: 0.75rem 2rem;
   border-bottom: 1px solid var(--border-color);
-  margin-bottom: 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+}
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .navbar-brand {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #fff;
-  margin-right: auto;
+  font-family: 'Great Vibes', cursive; 
+  font-size: 2.5rem;                  
+  font-weight:700;                
+  color: var(--primary-color);        
+  text-decoration: none;              
 }
-
-.navbar-links {
+.nav-home {
+  font-weight: 500;
+  color: var(--primary-color);
+}
+.navbar-right {
   display: flex;
   align-items: center;
+  gap: 5rem;
+}
+.nav-links {
+  display: flex;          
+  align-items: center;
+  gap: 1rem;    
+}          
+
+.navbar-links a {
+   color: var(--text-color);
+  font-weight: 500;
+  text-decoration: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+.nav-links a:hover {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+
+.navbar .btn {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px; /* pill button */
+}
+.logout-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.logout-button:hover {
+  background-color: var(--primary-hover-color);
+}
+/* --- Create Item Page --- */
+.form-container {
+  max-width: 600px;
+  margin: 3rem auto;
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  padding: 2.5rem;
+  text-align: center;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.form-container h1 {
+  color: var(--primary-color);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+  text-align: left;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.6rem;
+  outline: none;
+  background-color: #f9fafb;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+  background-color: #fff;
+}
+
+textarea {
+  resize: none;
+  height: 100px;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: #fff;
+  padding: 0.9rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  transition: background 0.25s ease-in-out, transform 0.15s ease-in-out;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover-color);
+  transform: translateY(-2px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* --- Item Details Page --- */
+.item-details-container {
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 2rem;
+}
+
+.item-details-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  overflow: hidden;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.item-details-img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+}
+
+.item-details-content {
+  padding: 2rem;
+}
+
+.item-details-title {
+  color: var(--primary-color);
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.item-details-desc {
+  color: var(--subtle-text-color);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  font-size: 1.05rem;
+  text-align: justify;
+}
+
+.status-badge {
+  margin-left: 0.5rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-badge.available {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.status-badge.unavailable {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+.item-details-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn-danger {
+  background-color: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.2rem;
+  border-radius: 0.6rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--subtle-text-color);
+  margin-top: 3rem;
+}
+.rentals-container {
+  max-width: 1000px;
+  margin: 80px auto;
+  padding: 20px;
+  background-color: #f8f9fc;
+  border-radius: 12px;
+}
+
+.rentals-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 30px;
+}
+
+.loading,
+.no-rentals {
+  text-align: center;
+  color: #555;
+  font-size: 1.1rem;
+  margin-top: 30px;
+}
+
+.rentals-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+/* Card style */
+.rental-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rental-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.rental-info h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.rental-info p {
+  color: #555;
+  margin: 3px 0;
+}
+
+.cancel-btn {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.cancel-btn:hover {
+  background: #c0392b;
+}
+
+/* Optional: Make grid responsive */
+@media (min-width: 700px) {
+  .rentals-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.swal2-popup {
+  border-radius: 1rem !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+.swal2-title {
+  color: var(--primary-color) !important;
+  font-weight: 700 !important;
+}
+
+.swal2-styled.swal2-confirm {
+  background-color: var(--primary-color) !important;
+  border-radius: 0.6rem !important;
+}
+
+.swal2-styled.swal2-cancel {
+  background-color: #6b7280 !important;
+  border-radius: 0.6rem !important;
+}
+
+/* Add these to your src/index.css file */
+
+.loading {
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* MyRentalsPage Styles */
+.rentals-title, .reviews-title {
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.no-rentals, .no-reviews {
+  font-size: 1.1rem;
+  color: var(--subtle-text-color);
+  text-align: center;
+  padding: 2rem;
+}
+
+.rentals-grid, .reviews-grid {
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 1.5rem;
 }
 
-.search-form {
+.rental-card {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 1.5rem;
   display: flex;
-  gap: 0.5rem;
-  margin: 0 1rem;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.search-input {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  min-width: 200px;
+.rental-info h3 {
+  margin: 0 0 0.5rem 0;
+  color: #fff;
+}
+.rental-info p {
+  margin: 0.25rem 0;
+  color: var(--subtle-text-color);
+}
+.rental-info p:first-of-type {
+  color: var(--text-color);
+  font-weight: 500;
 }
 
-.search-button {
-  padding: 0.5rem 1rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
+.rental-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.cancel-btn {
+  /* This is from your file, let's style it like our danger button */
+  display: inline-block;
+  font-weight: 500;
+  text-align: center;
   cursor: pointer;
+  border: 1px solid transparent;
+  padding: 0.625rem 1.25rem;
+  font-size: 1rem;
+  border-radius: 0.375rem;
+  color: #fff;
+  background-color: var(--danger-color);
+  border-color: var(--danger-color);
+  transition: all 0.2s ease-in-out;
+}
+.cancel-btn:hover {
+  background-color: var(--danger-hover-color);
+  border-color: var(--danger-hover-color);
 }
 
-.search-button:hover {
-  background-color: #0056b3;
+/* Review Form */
+.review-form {
+  background-color: var(--background-color);
+  padding: 1.5rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+}
+.review-form h4 {
+  margin-top: 0;
+}
+
+/* ItemDetailsPage Styles */
+.item-details-card {
+  background-color: var(--surface-color);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.item-details-content {
+  padding: 2rem;
+  text-align: left;
+}
+
+.item-details-title {
+  margin-top: 0;
+}
+
+.item-details-desc {
+  font-size: 1.1rem;
+  color: var(--subtle-text-color);
+  margin-bottom: 1.5rem;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.status-badge.available {
+  background-color: #2dce89;
+  color: #172b4d;
+}
+.status-badge.unavailable, .status-badge.Rented {
+  background-color: #fb6340;
+  color: #fff;
+}
+
+.item-details-actions {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+/* Reviews Display */
+.reviews-container {
+  margin-top: 3rem;
+  text-align: left;
+}
+
+.review-card {
+  /* uses .item-card styles */
+  padding: 1.5rem;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.review-header strong {
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.review-comment {
+  color: var(--text-color);
+  margin: 0.5rem 0;
+}
+
+.review-date {
+  color: var(--subtle-text-color);
+  font-size: 0.9rem;
+}
+
+/* --- For the Home Page Card --- */
+.item-card {
+  /* We want the image to be inside the card, so remove padding */
+  padding: 0; 
+  overflow: hidden; /* This keeps the corners rounded */
+}
+
+.item-card-img {
+  width: 100%;
+  height: 200px; /* Fixed height for all cards */
+  object-fit: cover; /* This makes the image cover the area, not stretch */
+  display: block;
+}
+
+.item-card-content {
+  /* Add the padding back just for the text content */
+  padding: 1.5rem;
+}
+
+/* --- For the Details Page Image --- */
+.item-details-img {
+  width: 100%;
+  height: 400px; /* A larger image for the details page */
+  object-fit: cover;
 }

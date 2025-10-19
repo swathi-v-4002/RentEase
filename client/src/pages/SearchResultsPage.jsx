@@ -34,7 +34,7 @@ function SearchResultsPage() {
   };
 
   fetchSearchResults();
-}, [location.search]);
+}, [searchTerm, location.search]);
 
   if (loading) {
     return <div className="loading">Searching...</div>;

@@ -35,7 +35,7 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/categories', require('./routes/categories'));
 app.use('/api/items', require('./routes/items')); 
 app.use('/api/rentals', require('./routes/rentals')); 
-
+app.use('/api/reviews', require('./routes/reviews'));
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);

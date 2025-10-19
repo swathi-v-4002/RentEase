@@ -28,10 +28,18 @@ function HomePage() {
             style={{ textDecoration: "none" }}
           >
             <div className="item-card">
-              <h2>{item.itemName}</h2>
-              <p>
-                <strong>Price per day:</strong> ₹{item.rentalPrice}
-              </p>
+              {/* --- ADD THIS IMAGE TAG --- */}
+              <img
+                src={item.imageUrl}
+                alt={item.itemName}
+                className="item-card-img"
+              />
+              <div className="item-card-content">
+                <h2>{item.itemName}</h2>
+                <p>
+                  <strong>Price per day:</strong> ₹{item.rentalPrice}
+                </p>
+              </div>
             </div>
           </Link>
         ))}
