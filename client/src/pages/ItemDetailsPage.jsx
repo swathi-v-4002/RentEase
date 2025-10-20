@@ -117,41 +117,43 @@ function ItemDetailsPage() {
 
   return (
     <div className="item-details-container">
-      <div className="item-details-card">
-        <img
-          src={item.imageUrl}
-          alt={item.itemName}
-          className="item-details-img"
-        />
-        <div className="item-details-content">
-          <h1 className="item-details-title">{item.itemName}</h1>
-          <p className="item-details-desc">{item.description}</p>
-          <p>
-            <strong>Price:</strong> ₹{item.rentalPrice}/day
-          </p>
-          <p>
-            <strong>Owner:</strong> {item.owner?.name || "N/A"}
-          </p>
-          <p>
-            <strong>Status:</strong>
-            <span
-              className={`status-badge ${
-                item.availabilityStatus === "Available"
-                  ? "available"
-                  : "unavailable"
-              }`}
-            >
-              {item.availabilityStatus}
-            </span>
-          </p>
+      <div className="item-details-grid">
+        {/* LEFT: Image */}
+        <div className="left-column">
+          <img src={item.imageUrl} alt={item.itemName} className="item-details-img" />
+        </div>
 
-          <div className="item-details-actions">
-            {item.availabilityStatus === "Available" &&
-              user?.id !== item.owner?._id && (
-                <button onClick={handleRent} className="btn btn-primary">
-                  Rent Now
-                </button>
-              )}
+        {/* CENTER: Details + actions (Rent Now button below details) */}
+        <div className="center-column">
+          <div className="item-details-card">
+            <div className="item-details-content">
+              <h1 className="item-details-title">{item.itemName}</h1>
+              <p className="item-details-desc">{item.description}</p>
+              <p>
+                <strong>Price:</strong> ₹{item.rentalPrice}/day
+              </p>
+              <p>
+                <strong>Owner:</strong> {item.owner?.name || "N/A"}
+              </p>
+              <p>
+                <strong>Status:</strong>
+                <span
+                  className={`status-badge ${
+                    item.availabilityStatus === "Available" ? "available" : "unavailable"
+                  }`}
+                >
+                  {item.availabilityStatus}
+                </span>
+              </p>
+            </div>
+          </div>
+
+          <div className="item-details-actions" style={{ marginTop: "1.25rem" }}>
+            {item.availabilityStatus === "Available" && user?.id !== item.owner?._id && (
+              <button onClick={handleRent} className="btn btn-primary">
+                Rent Now
+              </button>
+            )}
 
             {user && user.id === item.owner?._id && (
               <button onClick={handleDelete} className="btn btn-danger">
@@ -160,29 +162,29 @@ function ItemDetailsPage() {
             )}
           </div>
         </div>
-      </div>
 
-      {/* --- NEW REVIEWS SECTION --- */}
-      <div className="reviews-container">
-        <h2 className="reviews-title">Reviews</h2>
-        {reviews.length === 0 ? (
-          <p className="no-reviews">No reviews for this item yet.</p>
-        ) : (
-          <div className="reviews-grid">
-            {reviews.map((review) => (
-              <div className="review-card item-card" key={review._id}>
-                <div className="review-header">
-                  <strong>{review.user?.name || "Anonymous"}</strong>
-                  <StarRating rating={review.rating} />
+        {/* RIGHT: Reviews */}
+        <aside className="right-column reviews-container">
+          <h3 className="reviews-title">Reviews</h3>
+          {reviews.length === 0 ? (
+            <p className="no-reviews">No reviews yet</p>
+          ) : (
+            <div className="reviews-grid">
+              {reviews.map((review) => (
+                <div className="review-card item-card" key={review._id}>
+                  <div className="review-header">
+                    <strong style={{ color: "#111" }}>{review.user?.name || "Anonymous"}</strong>
+                    <StarRating rating={review.rating} />
+                  </div>
+                  <p className="review-comment">{review.comment}</p>
+                  <small className="review-date">
+                    {new Date(review.createdAt).toLocaleDateString("en-IN")}
+                  </small>
                 </div>
-                <p className="review-comment">{review.comment}</p>
-                <small className="review-date">
-                  {new Date(review.createdAt).toLocaleDateString("en-IN")}
-                </small>
-              </div>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
+          )}
+        </aside>
       </div>
     </div>
   );

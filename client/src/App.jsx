@@ -4,11 +4,11 @@ import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import CreateItemPage from "./pages/CreateItemPage";
-import PrivateRoute from "./components/PrivateRoute";
-import ItemDetailsPage from "./pages/ItemDetailsPage";
-import MyRentalsPage from "./pages/MyRentalsPage";
+import MyListingsPage from "./pages/MyListingsPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
+import ItemDetailsPage from "./pages/ItemDetailsPage";
+import PrivateRoute from "./components/PrivateRoute";
+import MyRentalsPage from "./pages/MyRentalsPage";
 
 function App() {
   return (
@@ -31,10 +31,10 @@ function App() {
             }
           />
           <Route
-            path="/create-item"
+            path="/my-listings"
             element={
               <PrivateRoute>
-                <CreateItemPage />
+                <MyListingsPage />
               </PrivateRoute>
             }
           />

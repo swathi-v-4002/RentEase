@@ -23,7 +23,7 @@ function Navbar() {
   const authLinks = (
   <div className="nav-links">
     <Link to="/my-rentals">My Rentals</Link>
-    <Link to="/create-item">Create Listing</Link>
+    <Link to="/my-listings">My Listings</Link>
     <button onClick={onLogout} className="logout-button">Logout</button>
   </div>
 );

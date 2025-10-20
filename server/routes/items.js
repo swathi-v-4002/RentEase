@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Item = require('../models/item.model');
 const auth = require('../middleware/auth'); // Import our auth middleware
+const authOptional = require('../middleware/authOptional');
 const Category = require('../models/category.model');
 const upload = require('../config/cloudinary');
 
@@ -39,11 +40,13 @@ router.post('/', auth, upload.single('itemImage'), async (req, res) => {
 // @route   GET /api/items
 // @desc    Get all rental items
 // @access  Public
-router.get('/', async (req, res) => {
+router.get('/',authOptional ,async (req, res) => {
   try {
-    // .populate() will fetch the details of the owner and category
-    // instead of just showing their IDs. It's like a JOIN in SQL.
-    const items = await Item.find({ availabilityStatus: 'Available' }).populate('owner', 'name').populate('category', 'name');
+    let query = { availabilityStatus: 'Available' };
+    if(req.user && req.user.id){
+      query.owner = { $ne: req.user.id }; // Exclude items owned by the requester
+    }
+    const items = await Item.find(query).populate('owner', 'name').populate('category', 'name');
     res.json(items);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -91,6 +94,16 @@ router.get('/search', async (req, res) => {
   }
 });
 
+router.get('/myitems', auth, async (req, res) => {
+  try {
+    const items = await Item.find({ owner: req.user.id }).populate('category', 'name');
+    res.json(items);    
+  } catch (err) {
+    console.error('Error in /myitems:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // @route   GET /api/items/:id
 // @desc    Get a single item by ID
 // @access  Public
@@ -134,7 +147,6 @@ router.delete('/:id', auth, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-
 
 
 module.exports = router;

@@ -56,7 +56,8 @@ router.post('/login', async (req, res) => {
     // 3. User is valid, create JWT payload
     const payload = {
       user: {
-        id: user.id // This 'id' comes from MongoDB (_id)
+        id: user.id, // This 'id' comes from MongoDB (_id)
+        name: user.name
       }
     };
 

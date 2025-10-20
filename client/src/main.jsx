@@ -1,7 +1,7 @@
+import "./index.css"; // You can delete the contents of this file if you want
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
-import "./index.css"; // You can delete the contents of this file if you want
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 

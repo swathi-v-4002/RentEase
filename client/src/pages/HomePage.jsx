@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom"; // 1. IMPORT the Link component
+import { useAuth } from "../context/AuthContext";
 
 function HomePage() {
   const [items, setItems] = useState([]);
-
+  const { isLoadingAuth } = useAuth();
   useEffect(() => {
+    if(isLoadingAuth) return; // Wait until auth state is resolved
+
     const fetchItems = async () => {
       try {
         const response = await axios.get("/api/items");
@@ -15,7 +18,11 @@ function HomePage() {
       }
     };
     fetchItems();
-  }, []);
+  }, [isLoadingAuth]);
+
+  if(isLoadingAuth) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
