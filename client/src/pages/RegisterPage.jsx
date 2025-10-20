@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -21,11 +22,26 @@ function RegisterPage() {
     try {
       const newUser = { name, email, password, phoneNumber };
       await axios.post("/api/users/register", newUser);
-      alert("Registration successful! Please log in.");
-      navigate("/login"); // Redirect to login page
+      Swal.fire({
+        title: "Success!",
+        text: "Registration successful! Please log in.",
+        icon: "success",
+        confirmButtonColor: "#7c3aed", // Optional: matches your theme
+      }).then((result) => {
+        // Navigate after the user clicks "OK"
+        if (result.isConfirmed) {
+          navigate("/login"); // Redirect to login page
+        }
+      });
     } catch (error) {
       console.error(error.response.data);
-      alert("Registration failed. Please check your details.");
+      Swal.fire({
+        title: "Registration Failed",
+        // Show the specific error message from the server
+        text: error.response?.data?.msg || "Please check your details and try again.",
+        icon: "error",
+        confirmButtonColor: "#7c3aed", // Optional: matches your theme
+      });
     }
   };
 

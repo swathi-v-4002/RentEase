@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import Swal from "sweetalert2";
 
 function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -20,7 +21,13 @@ function LoginPage() {
       navigate("/");
     } catch (error) {
       console.error(error.response.data);
-      alert("Login Failed: Invalid Credentials");
+      Swal.fire({
+        title: "Login Failed",
+        // Show the specific error message from the server
+        text: error.response?.data?.msg || "Please check your details and try again.",
+        icon: "error",
+        confirmButtonColor: "#7c3aed", // Optional: matches your theme
+      });
     }
   };
 
