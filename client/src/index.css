@@ -7,13 +7,14 @@
 /* 2. COLOR & FONT VARIABLES */
 :root {
   --primary-color: #7c3aed;      /* Purple accent */
-  --primary-hover-color: #6d28d9;
+  --primary-hover-color: #5e22c0;
   --background-color: #f9fafb;   /* Light gray background */
   --surface-color: #ffffff;      /* Card white */
   --text-color: #111827;         /* Dark text */
   --subtle-text-color: #6b7280;  /* Muted gray */
-  --border-color: #e5e7eb;       /* Light border */
-
+  --border-color: #e0e0e2;       /* Light border */
+  --danger-hover-color: #eb2610;
+  --danger-color: #e74c3c;
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
   font-weight: 400;
@@ -27,14 +28,14 @@ body {
 }
 
 #root {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 2rem;
 }
 
 h1, h2, h3 {
   font-weight: 700;
   color: #111827;
+  margin: 0;
 }
 
 a {
@@ -43,7 +44,14 @@ a {
   transition: color 0.2s ease-in-out;
 }
 a:hover {
-  color: var(--primary-hover-color);
+  color: var(--primary-hover-color) ;
+}
+
+.heading{
+  margin-left: 4.5rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: var(--text-color);
+  border-bottom: 2px solid var(--primary-color);
 }
 
 /* 4. COMPONENT STYLES */
@@ -105,19 +113,18 @@ flex: 1;
 /* Item Cards */
 .item-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
-  padding: 2rem 0;
-  max-width: 1200px;   /* keeps it neat on big screens */
+  grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+  gap: 1.5rem;
+  max-width: 90%;   /* keeps it neat on big screens */
   margin: 0 auto;  
 }
 
 .item-card {
   background-color: var(--surface-color);
   border: 1px solid var(--border-color);
-  border-radius: 1rem;
+  border-radius: 3px;
   overflow: hidden;
- box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   display: flex;
   flex-direction: column;
@@ -135,24 +142,23 @@ flex: 1;
 }
 
 .item-card-content {
-  padding: 1.25rem;
+  padding: 0.5rem 0rem;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .item-card h2 {
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0rem 1rem;
   font-size: 1.3rem;
   font-weight: 600;
   color: var(--text-color);
   text-transform: capitalize;
-  text-align: center;
+  text-align: left;
 }
 
 .item-card p {
-  margin: 0.25rem 0;
+  margin: 0;
   color: var(--subtle-text-color);
   font-size: 1rem;
   margin-left: 1rem;
@@ -181,7 +187,7 @@ flex: 1;
   align-items: center;
   justify-content: space-between;
   background: #fff;
-  padding: 0.75rem 2rem;
+  padding: 0.5rem 2rem;
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
@@ -225,8 +231,7 @@ flex: 1;
   transition: background 0.2s ease;
 }
 .nav-links a:hover {
-  background: var(--primary-color);
-  color: #fff;
+  color: var(--primary-hover-color);
 }
 
 
@@ -327,36 +332,40 @@ textarea {
 }
 /* --- Item Details Page --- */
 .item-details-container {
-  max-width: 900px;
-  margin: 3rem auto;
-  padding: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 .item-details-card {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   background: var(--surface-color);
-  border: 1px solid var(--border-color);
-  border-radius: 1rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-  overflow: hidden;
-  animation: fadeIn 0.5s ease-in-out;
+  align-items: flex-start;
+  gap: 2.5rem;
+  flex-wrap: wrap;
 }
 
 .item-details-img {
+  flex: 1 ;
   width: 100%;
-  height: 350px;
+  max-width: 450px;
+  height: 420px;
   object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .item-details-content {
-  padding: 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .item-details-title {
   color: var(--primary-color);
   font-size: 2rem;
-  margin-bottom: 0.5rem;
   text-align: center;
   font-weight: 700;
 }
@@ -369,13 +378,20 @@ textarea {
   text-align: justify;
 }
 
+.item-details-content p {
+  font-size: 1.05rem;
+  color: var(--text-color);
+  margin: 0.4rem 0;
+}
+
 .status-badge {
+  display: inline-block;
   margin-left: 0.5rem;
-  padding: 0.3rem 0.7rem;
-  border-radius: 20px;
+  padding: 0.3rem 0.8rem;
+  border-radius: 5px;
   font-size: 0.9rem;
   font-weight: 600;
-  text-transform: capitalize;
+  text-transform: capitalize !important;
 }
 
 .status-badge.available {
@@ -391,7 +407,6 @@ textarea {
 .item-details-actions {
   margin-top: 1.5rem;
   display: flex;
-  justify-content: center;
   gap: 1rem;
 }
 
@@ -417,19 +432,13 @@ textarea {
   margin-top: 3rem;
 }
 .rentals-container {
-  max-width: 1000px;
-  margin: 80px auto;
-  padding: 20px;
+  max-width: 90%;
+  margin: 0px auto;
   background-color: #f8f9fc;
   border-radius: 12px;
 }
 
-.rentals-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #222;
-  margin-bottom: 30px;
-}
+
 
 .loading,
 .no-rentals {
@@ -449,7 +458,7 @@ textarea {
 .rental-card {
   background: #fff;
   border-radius: 12px;
-  padding: 20px 25px;
+  padding: 5px 25px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   display: flex;
   justify-content: space-between;
@@ -465,13 +474,11 @@ textarea {
 .rental-info h3 {
   font-size: 1.2rem;
   font-weight: 600;
-  margin-bottom: 8px;
   color: #333;
 }
 
 .rental-info p {
   color: #555;
-  margin: 3px 0;
 }
 
 .cancel-btn {
@@ -486,6 +493,8 @@ textarea {
 
 .cancel-btn:hover {
   background: #c0392b;
+  background: var(--primary-hover-color);
+  transform: translateY(-2px);
 }
 
 /* Optional: Make grid responsive */
@@ -514,6 +523,23 @@ textarea {
   border-radius: 0.6rem !important;
 }
 
+.swal2-select {
+  width: 80%;
+  border: 2px solid var(--border-color);
+  border-radius: 5px;
+  font-size: 1rem;
+  outline: none;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.swal2-textarea {
+  width: 80%;
+  min-height: 100px;
+  border-radius: 5px;
+  border: 2px solid var(--border-color);
+  font-size: 1rem;
+}
+
 /* Add these to your src/index.css file */
 
 .loading {
@@ -524,10 +550,10 @@ textarea {
 }
 
 /* MyRentalsPage Styles */
-.rentals-title, .reviews-title {
+.rentals-title {
   border-bottom: 2px solid var(--primary-color);
-  padding-bottom: 0.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
 }
 
 .no-rentals, .no-reviews {
@@ -540,23 +566,23 @@ textarea {
 .rentals-grid, .reviews-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
 }
 
 .rental-card {
   background-color: var(--surface-color);
   border: 1px solid var(--border-color);
   border-radius: 6px;
-  padding: 1.5rem;
   display: flex;
-  flex-direction: column;
   gap: 1rem;
 }
 
-.rental-info h3 {
-  margin: 0 0 0.5rem 0;
-  color: #fff;
+.rental-image {
+  width: 180px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 12px;
 }
+
 .rental-info p {
   margin: 0.25rem 0;
   color: var(--subtle-text-color);
@@ -679,28 +705,9 @@ textarea {
   font-size: 0.9rem;
 }
 
-/* --- For the Home Page Card --- */
-.item-card {
-  /* We want the image to be inside the card, so remove padding */
-  padding: 0; 
-  overflow: hidden; /* This keeps the corners rounded */
-}
-
-.item-card-img {
-  width: 100%;
-  height: 200px; /* Fixed height for all cards */
-  object-fit: cover; /* This makes the image cover the area, not stretch */
-  display: block;
-}
-
-.item-card-content {
-  /* Add the padding back just for the text content */
-  padding: 1.5rem;
-}
-
-/* --- For the Details Page Image --- */
-.item-details-img {
-  width: 100%;
-  height: 400px; /* A larger image for the details page */
+.rental-image {
+  width: 100px;
+  height: 100px;
   object-fit: cover;
+  border-radius: 8px;
 }

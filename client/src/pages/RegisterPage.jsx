@@ -21,7 +21,6 @@ function RegisterPage() {
     try {
       const newUser = { name, email, password, phoneNumber };
       await axios.post("/api/users/register", newUser);
-      console.log("hello");
       alert("Registration successful! Please log in.");
       navigate("/login"); // Redirect to login page
     } catch (error) {

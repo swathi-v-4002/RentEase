@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
   try {
     // .populate() will fetch the details of the owner and category
     // instead of just showing their IDs. It's like a JOIN in SQL.
-    const items = await Item.find().populate('owner', 'name').populate('category', 'name');
+    const items = await Item.find({ availabilityStatus: 'Available' }).populate('owner', 'name').populate('category', 'name');
     res.json(items);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -55,23 +55,18 @@ router.get('/', async (req, res) => {
 // @access  Public
 router.get('/search', async (req, res) => {
   try {
-    console.log("Search backend hit");
     const { q } = req.query;
-    console.log("Search query:", q);
     
     if (!q || q.trim() === '') {
       return res.status(400).json({ message: 'Search query is required' });
     }
 
     // Step 1: Find categories that match the search term
-    console.log("Searching for categories...");
     const categories = await Category.find({
       name: { $regex: q.trim(), $options: 'i' }
     }).select('_id');
-    console.log("Found categories:", categories);
 
     const categoryIds = categories.map(cat => cat._id);
-    console.log("Category IDs:", categoryIds);
 
     // Step 2: Search Items
     const searchCriteria = {
@@ -81,12 +76,10 @@ router.get('/search', async (req, res) => {
         { category: { $in: categoryIds } }
       ]
     };
-    console.log("Before Item.find()");
 
     const items = await Item.find(searchCriteria)
       .populate('category', 'name')
       .sort({ createdAt: -1 });
-    console.log("Found items:", items);
     res.json(items);
 
   } catch (error) {

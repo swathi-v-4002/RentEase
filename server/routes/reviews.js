@@ -20,10 +20,10 @@ router.post('/', auth, async (req, res) => {
     if (rental.renter.toString() !== userId) {
       return res.status(401).json({ msg: 'User not authorized.' });
     }
-    // 3. (Optional) Check if rental is 'Completed'
-    if (rental.rentalStatus !== 'Completed') {
-      return res.status(400).json({ msg: 'You can only review completed rentals.' });
-    }
+    // // 3. (Optional) Check if rental is 'Completed'
+    // if (rental.rentalStatus !== 'Completed') {
+    //   return res.status(400).json({ msg: 'You can only review completed rentals.' });
+    // }
 
     // 4. Check if a review for this rental already exists
     let existingReview = await Review.findOne({ rental: rentalId });

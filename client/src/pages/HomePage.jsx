@@ -19,7 +19,7 @@ function HomePage() {
 
   return (
     <div>
-      <h1>Available Items for Rent</h1>
+      <h2 className="heading">Available Items for Rent</h2>
       <div className="item-grid">
         {items.map((item) => (
           <Link
@@ -35,10 +35,10 @@ function HomePage() {
                 className="item-card-img"
               />
               <div className="item-card-content">
-                <h2>{item.itemName}</h2>
-                <p>
-                  <strong>Price per day:</strong> ₹{item.rentalPrice}
-                </p>
+                <h2>
+                  ₹{item.rentalPrice}
+                </h2>
+                <p>{item.itemName}</p>
               </div>
             </div>
           </Link>

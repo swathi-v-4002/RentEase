@@ -37,8 +37,7 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-left">
-         <Link to="/" className="navbar-brand">RentEase</Link>
-        <Link to="/" className="nav-home">Home</Link>
+        <Link to="/" className="navbar-brand">RentEase</Link>
       </div>
       
 

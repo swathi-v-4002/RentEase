@@ -19,7 +19,6 @@ function SearchResultsPage() {
     if (!searchTerm) return;
     try {
       const response = await fetch(`http://localhost:5000/api/items/search?q=${encodeURIComponent(searchTerm)}`);
-      console.log("response", response);
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       const data = await response.json();
       setItems(data);
