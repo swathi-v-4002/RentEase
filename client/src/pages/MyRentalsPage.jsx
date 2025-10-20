@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function MyRentalsPage() {
   const [rentals, setRentals] = useState([]);
@@ -190,9 +190,10 @@ function MyRentalsPage() {
       ) : (
         <div className="rentals-grid">
           {rentals.map((rental) => {
-            
+            const Wrapper = rental.item ? Link : 'div';
+            const props = rental.item ? { to: `/item/${rental.item._id}`, style: { textDecoration: 'none' } } : {};
             return (
-              <div className="rental-card" key={rental._id}>
+              <Wrapper className="rental-card" key={rental._id} {...props}>
                 <img
                   src={
                     rental.item?.imageUrl
@@ -216,7 +217,9 @@ function MyRentalsPage() {
                   {rental.rentalStatus === "Approved" && (
                     <button
                       className="cancel-btn"
-                      onClick={() => handleCancelRental(rental._id)}
+                      onClick={(e) => {
+                        e.preventDefault(),
+                        handleCancelRental(rental._id)}}
                     >
                       Cancel Rental
                     </button>
@@ -225,13 +228,15 @@ function MyRentalsPage() {
                   {rental.rentalStatus === "Approved" && (
                       <button
                         className="btn btn-primary"
-                        onClick={() => handleReviewModal(rental._id)}
+                        onClick={(e) =>{
+                          e.preventDefault(),
+                          handleReviewModal(rental._id)}}
                       >
                         Leave a Review
                       </button>
                     )}
                 </div>
-              </div>
+              </Wrapper>
             );
           })}
         </div>

@@ -1,17 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 
-/* 2. COLOR & FONT VARIABLES */
 :root {
-  --primary-color: #7c3aed;      /* Purple accent */
+  /* --- Colors --- */
+  --primary-color: #7c3aed;
   --primary-hover-color: #5e22c0;
+  --background-color: #f9fafb;
+  --surface-color: #ffffff;
+  --text-color: #111827;
+  --subtle-text-color: #6b7280;
+  --border-color: #e0e0e2;
+  --danger-color: #e74c3c;
+  --danger-hover-color: #eb2610;
+
+  /* --- Fonts --- */
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
 }
-/* 3. GLOBAL STYLES */
+
 body {
   margin: 0;
   background-color: var(--background-color);
+  color: var(--text-color);
 }
-  /* 4. COMPONENT STYLES */
 
 /* Buttons */
 .btn {
@@ -22,11 +34,10 @@ body {
 .item-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
-}/* MyRentalsPage Styles */
-.rentals-title {
-  font-size: 1.5rem;
-/* Add styles for MyListingsPage */
 }
+/* Add styles for MyListingsPage */
+
+
 .my-listings-grid {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -156,29 +167,6 @@ body {
   .my-listings-form {
     margin-top: 2rem;
   }
-}
-
-/* 2. COLOR & FONT VARIABLES */
-:root {
-  --primary-color: #7c3aed;      /* Purple accent */
-  --primary-hover-color: #5e22c0;
-  --background-color: #f9fafb;   /* Light gray background */
-  --surface-color: #ffffff;      /* Card white */
-  --text-color: #111827;         /* Dark text */
-  --subtle-text-color: #6b7280;  /* Muted gray */
-  --border-color: #e0e0e2;       /* Light border */
-  --danger-hover-color: #eb2610;
-  --danger-color: #e74c3c;
-  font-family: 'Inter', sans-serif;
-  line-height: 1.6;
-  font-weight: 400;
-}
-
-/* 3. GLOBAL STYLES */
-body {
-  margin: 0;
-  background-color: var(--background-color);
-  color: var(--text-color);
 }
 
 #root {

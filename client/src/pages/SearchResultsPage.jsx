@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import axios from 'axios'; // 1. Import axios
 
+// Helper hook to get URL query params
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
-
 
 function SearchResultsPage() {
   const location = useLocation();
@@ -15,25 +16,30 @@ function SearchResultsPage() {
   const searchTerm = query.get('q');
 
   useEffect(() => {
-  const fetchSearchResults = async () => {
-    if (!searchTerm) return;
-    try {
-      const response = await fetch(`http://localhost:5000/api/items/search?q=${encodeURIComponent(searchTerm)}`);
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      const data = await response.json();
-      setItems(data);
-      setError('');
-    } catch (err) {
-      console.error('Fetch error:', err);
-      setError(err.message);
-      setItems([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchSearchResults = async () => {
+      if (!searchTerm) {
+        setLoading(false);
+        return;
+      }
+      
+      setLoading(true); // Set loading true at the start of a new search
+      try {
+        // 2. Use axios and the proxied URL
+        const response = await axios.get(`/api/items/search?q=${encodeURIComponent(searchTerm)}`);
+        
+        setItems(response.data); // 3. Get data from response.data
+        setError('');
+      } catch (err) {
+        console.error('Fetch error:', err);
+        setError(err.response?.data?.message || err.message || "Failed to fetch results");
+        setItems([]);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchSearchResults();
-}, [searchTerm, location.search]);
+    fetchSearchResults();
+  }, [searchTerm, location.search]); // location.search ensures re-fetch if query string changes
 
   if (loading) {
     return <div className="loading">Searching...</div>;
@@ -41,7 +47,7 @@ function SearchResultsPage() {
 
   if (error) {
     return (
-      <div className="error">
+      <div className="error" style={{ textAlign: 'center', padding: '2rem' }}>
         <h2>Search Error</h2>
         <p>{error}</p>
         <Link to="/" className="btn btn-primary">Go Home</Link>
@@ -50,28 +56,37 @@ function SearchResultsPage() {
   }
 
   return (
-    <div className="search-results">
-      <h1>Search Results for "{searchTerm}"</h1>
-      <p>{items.length} item(s) found</p>
+    // 4. Use the same outer structure as HomePage
+    <div>
+      <h2 className="heading">Search Results for "{searchTerm}"</h2>
       
       {items.length > 0 ? (
         <div className="item-grid">
-          {items.map(item => (
-  <div key={item._id} className="item-card">
-    <h2>{item.itemName}</h2>
-    <p className="item-description">{item.description}</p>
-    <p className="item-price">${item.rentalPrice} per day</p>
-    <p className="item-category">Category: {item.category?.name}</p>
-    <p className="item-location">{item.location}</p>
-    {item.owner && <p className="item-owner">Owner: {item.owner.name}</p>}
-    <Link to={`/items/${item._id}`} className="btn btn-primary">
-      View Details
-    </Link>
-  </div>
-))}
+          {/* 5. THIS IS THE CARD STRUCTURE COPIED FROM HOMEPAGE */}
+          {items.map((item) => (
+            <Link
+              to={`/item/${item._id}`} // Use singular '/item/' to match HomePage
+              key={item._id}
+              style={{ textDecoration: "none" }}
+            >
+              <div className="item-card">
+                <img
+                  src={item.imageUrl}
+                  alt={item.itemName}
+                  className="item-card-img"
+                />
+                <div className="item-card-content">
+                  <h2>
+                    ₹{item.rentalPrice} {/* Use '₹' to match HomePage */}
+                  </h2>
+                  <p>{item.itemName}</p>
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
       ) : (
-        <div className="no-results">
+        <div className="no-results" style={{ textAlign: 'center', padding: '2rem' }}>
           <p>No items found matching your search.</p>
           <Link to="/" className="btn btn-primary">Browse All Items</Link>
         </div>

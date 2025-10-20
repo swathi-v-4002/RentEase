@@ -53,10 +53,51 @@ router.get('/',authOptional ,async (req, res) => {
   }
 });
 
+// // @route   GET /api/items/search
+// // @desc    Search for items by name, description, or category name
+// // @access  Public
+// router.get('/search', async (req, res) => {
+//   try {
+//     const { q } = req.query;
+    
+//     if (!q || q.trim() === '') {
+//       return res.status(400).json({ message: 'Search query is required' });
+//     }
+
+//     // Step 1: Find categories that match the search term
+//     const categories = await Category.find({
+//       name: { $regex: q.trim(), $options: 'i' }
+//     }).select('_id');
+
+//     const categoryIds = categories.map(cat => cat._id);
+
+//     // Step 2: Search Items
+//     const searchCriteria = {
+//       $or: [
+//         { itemName: { $regex: q.trim(), $options: 'i' } },
+//         { description: { $regex: q.trim(), $options: 'i' } },
+//         { category: { $in: categoryIds } }
+//       ]
+//     };
+
+//     const items = await Item.find(searchCriteria)
+//       .populate('category', 'name')
+//       .sort({ createdAt: -1 });
+//     res.json(items);
+
+//   } catch (error) {
+//     console.error('Search error:', error);
+//     res.status(500).json({ 
+//       message: 'Server error during search',
+//       error: error.message 
+//     });
+//   }
+// });
+
 // @route   GET /api/items/search
 // @desc    Search for items by name, description, or category name
-// @access  Public
-router.get('/search', async (req, res) => {
+// @access  Public (filters out user's own items if logged in)
+router.get('/search', authOptional, async (req, res) => { // <-- 1. Add authOptional
   try {
     const { q } = req.query;
     
@@ -71,18 +112,29 @@ router.get('/search', async (req, res) => {
 
     const categoryIds = categories.map(cat => cat._id);
 
-    // Step 2: Search Items
+    // Step 2: Build Search Criteria
     const searchCriteria = {
+      // Original search logic
       $or: [
         { itemName: { $regex: q.trim(), $options: 'i' } },
         { description: { $regex: q.trim(), $options: 'i' } },
         { category: { $in: categoryIds } }
-      ]
+      ],
+      // 2. Add new condition: MUST be 'Available'
+      availabilityStatus: 'Available'
     };
 
+    // 3. Add new condition: Exclude items owned by the requester (if logged in)
+    if (req.user && req.user.id) {
+      searchCriteria.owner = { $ne: req.user.id };
+    }
+
+    // Step 3: Find items matching all criteria
     const items = await Item.find(searchCriteria)
+      .populate('owner', 'name') // Added owner populate for consistency
       .populate('category', 'name')
       .sort({ createdAt: -1 });
+      
     res.json(items);
 
   } catch (error) {

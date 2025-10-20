@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
 
@@ -89,6 +89,40 @@ function MyListingsPage() {
     }
   };
 
+  const handleDelete = async (itemId) => {
+    const result = await Swal.fire({
+      title: "Delete Listing?",
+      text: "Are you sure you want to permanently delete this listing? This action cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#6c757d",
+      confirmButtonText: "Yes, delete it",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await axios.delete(`/api/items/${itemId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Send auth token
+          },
+        });
+
+        Swal.fire("Deleted!", "Listing deleted successfully.", "success");
+        
+        // Update state to remove the item from the list instantly
+        setMyItems(prevItems => prevItems.filter(item => item._id !== itemId));
+
+      } catch (error) {
+        Swal.fire(
+          "Error!",
+          error.response?.data?.msg || "Failed to delete listing.",
+          "error"
+        );
+      }
+    }
+  };
+
   return (
     <div className="my-listings-grid">
       {/* Left: My listed items */}
@@ -99,14 +133,28 @@ function MyListingsPage() {
         ) : (
           <div className="my-listings-item-grid">
             {myItems.map((item) => (
+              <Link to={`/item/${item._id}`} key={item._id} style={{ textDecoration: "none" }}>
               <div className="my-listings-item-card" key={item._id}>
                 <img src={item.imageUrl} alt={item.itemName} className="my-listings-item-img" />
                 <div className="my-listings-item-content">
                   <div className="my-listings-item-name">{item.itemName}</div>
                   <div className="my-listings-item-price">₹{item.rentalPrice}/day</div>
                   <div className="my-listings-item-category">{item.category?.name}</div>
+
+                  <button
+                      className="btn btn-danger" // Use existing style from your CSS
+                      style={{ marginTop: '0.5rem', width: '100%', fontSize: '0.9rem' }}
+                      onClick={(e) => {
+                        e.preventDefault(); // Stop the Link from navigating
+                        handleDelete(item._id); // Call the delete function
+                      }}
+                    >
+                      Delete
+                    </button>
+
                 </div>
               </div>
+              </Link>
             ))}
           </div>
         )}
