@@ -19,6 +19,16 @@
   line-height: 1.6;
   font-weight: 400;
 }
+
+select {
+  font-family: manrope;
+  font-size: 1rem;
+}
+
+textarea {
+  font-family: manrope;
+}
+
 .manrope {
   font-family: "Manrope", sans-serif;
   font-optical-sizing: auto;
@@ -626,7 +636,6 @@ a:hover {
 .rentals-container {
   max-width: 90%;
   margin: 0px auto;
-  background-color: #f8f9fc;
   border-radius: 12px;
 }
 .rentals-title {

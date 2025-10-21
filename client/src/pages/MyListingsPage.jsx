@@ -208,7 +208,7 @@ function MyListingsPage() {
               required
             />
           </div>
-          <div className="form-group2 upload-file-input">
+          {/* <div className="form-group2 upload-file-input">
             <label>Image</label>
             <input
               type="file"
@@ -217,7 +217,45 @@ function MyListingsPage() {
               required
               style={{ padding: "10px", border: "none" }}
             />
+          </div> */}
+
+          <div className="form-group2 upload-file-input" >
+            <label
+              htmlFor="fileUpload"
+              style={{
+                display: "inline-block",
+                background: "#f9fafb",
+                color: "#6b7280",
+                padding: "0.25rem 1.5rem",
+                borderRadius: "8px",
+                cursor: "pointer",
+                fontWeight: "400",
+                transition: "background 0.3s ease",
+                border: "1px solid #d1d5db",
+              }}
+              onMouseEnter={(e) => (e.target.style.background = "#ffffffff")}
+              onMouseLeave={(e) => (e.target.style.background = "#f9fafb")}
+            >
+              Choose File
+            </label>
+            <input
+              id="fileUpload"
+              type="file"
+              name="itemImage"
+              onChange={onFileChange}
+              required
+              style={{
+                display: "none", // hides the ugly default button
+              }}
+            />
+            {file && (
+              <p style={{ marginTop: "0.5rem", fontSize: "0.9rem", color: "var(--subtle-text-color)" }}>
+                {file.name}
+              </p>
+            )}
           </div>
+
+
           <div className="form-group2">
             <textarea
               placeholder="Description"

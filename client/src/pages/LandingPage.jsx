@@ -73,7 +73,7 @@ function LandingPage() {
                     <div style={{flex: '1 1 220px', background: 'var(--background-color)', borderRadius: '1rem', padding: '2rem', textAlign: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.04)'}}>
                         <div style={{fontSize: '2rem', fontWeight: 700, color: 'var(--primary-color)', marginBottom: '0.5rem'}}>3</div>
                         <h3 style={{fontSize: '1.1rem', fontWeight: 600}}>Connect & Transact</h3>
-                        <p style={{color: 'var(--subtle-text-color)'}}>Arrange rental details and make secure payments through our platform.</p>
+                        <p style={{color: 'var(--subtle-text-color)'}}>Arrange rental details through our platform.</p>
                     </div>
                 </div>
             </section>
