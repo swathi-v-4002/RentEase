@@ -4,7 +4,7 @@ const auth = require('../middleware/auth'); // Import our auth middleware
 const authOptional = require('../middleware/authOptional');
 const Category = require('../models/category.model');
 const upload = require('../config/cloudinary');
-
+const Rental = require('../models/rental.model');
 // @route   POST /api/items
 // @desc    Create a new rental item
 // @access  Private
@@ -53,46 +53,6 @@ router.get('/',authOptional ,async (req, res) => {
   }
 });
 
-// // @route   GET /api/items/search
-// // @desc    Search for items by name, description, or category name
-// // @access  Public
-// router.get('/search', async (req, res) => {
-//   try {
-//     const { q } = req.query;
-    
-//     if (!q || q.trim() === '') {
-//       return res.status(400).json({ message: 'Search query is required' });
-//     }
-
-//     // Step 1: Find categories that match the search term
-//     const categories = await Category.find({
-//       name: { $regex: q.trim(), $options: 'i' }
-//     }).select('_id');
-
-//     const categoryIds = categories.map(cat => cat._id);
-
-//     // Step 2: Search Items
-//     const searchCriteria = {
-//       $or: [
-//         { itemName: { $regex: q.trim(), $options: 'i' } },
-//         { description: { $regex: q.trim(), $options: 'i' } },
-//         { category: { $in: categoryIds } }
-//       ]
-//     };
-
-//     const items = await Item.find(searchCriteria)
-//       .populate('category', 'name')
-//       .sort({ createdAt: -1 });
-//     res.json(items);
-
-//   } catch (error) {
-//     console.error('Search error:', error);
-//     res.status(500).json({ 
-//       message: 'Server error during search',
-//       error: error.message 
-//     });
-//   }
-// });
 
 // @route   GET /api/items/search
 // @desc    Search for items by name, description, or category name
@@ -148,8 +108,13 @@ router.get('/search', authOptional, async (req, res) => { // <-- 1. Add authOpti
 
 router.get('/myitems', auth, async (req, res) => {
   try {
-    const items = await Item.find({ owner: req.user.id }).populate('category', 'name');
-    res.json(items);    
+    // This route now *only* finds your items.
+    const items = await Item.find({ owner: req.user.id })
+                          .populate('category', 'name')
+                          .sort({ createdAt: -1 });
+    
+    res.json(items); // Just send the items
+
   } catch (err) {
     console.error('Error in /myitems:', err);
     res.status(500).json({ error: err.message });

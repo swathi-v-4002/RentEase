@@ -8,7 +8,7 @@ const rentalSchema = new Schema({
   startDate: { type: Date, default: Date.now },
   endDate: { type: Date },
   totalCost: { type: Number, required: true },
-  rentalStatus: { type: String, enum: ['Pending', 'Approved', 'Completed'], default: 'Approved' }
+  rentalStatus: { type: String, enum: ['Pending', 'Approved','Rejected', 'Completed'], default: 'Pending' }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Rental', rentalSchema);

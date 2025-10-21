@@ -14,9 +14,27 @@ function MyListingsPage() {
   });
   const [file, setFile] = useState(null);
   const [categories, setCategories] = useState([]);
-  const [myItems, setMyItems] = useState([]);
+  const [myItems, setMyItems] = useState([]); // This will now contain 'pendingRequest'
+  const [loadingItems, setLoadingItems] = useState(true); // <-- NEW loading state
   const navigate = useNavigate();
 
+  // --- 1. Created a reusable function to fetch listings ---
+  const fetchMyItems = async () => {
+    if (!token) return;
+    setLoadingItems(true);
+    try {
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+      const res = await axios.get("/api/items/myitems", config);
+      setMyItems(res.data);
+    } catch (error) {
+      console.error("Failed to fetch items", error);
+      Swal.fire("Error", "Could not load your listings.", "error");
+    } finally {
+      setLoadingItems(false);
+    }
+  };
+
+  // Fetch categories on load
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -32,24 +50,12 @@ function MyListingsPage() {
     fetchCategories();
   }, []);
 
+  // Fetch items on load
   useEffect(() => {
-    const fetchMyItems = async () => {
-      try {
-        const res = await axios.get("/api/items/myitems", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setMyItems(res.data);
-      } catch (error) {
-        console.error("Failed to fetch items", error);
-      }
-    };
-    if (token) {
-      fetchMyItems();
-    }
+    fetchMyItems();
   }, [token]);
 
+  // --- (onChange and onFileChange are unchanged) ---
   const { itemName, description, rentalPrice, category } = formData;
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -58,6 +64,7 @@ function MyListingsPage() {
     setFile(e.target.files[0]);
   };
 
+  // --- (onSubmit is unchanged, but it now calls fetchMyItems) ---
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!file) {
@@ -78,18 +85,24 @@ function MyListingsPage() {
       };
       await axios.post("/api/items", data, config);
       Swal.fire("Success!", "Item listed successfully!", "success");
-      setFormData({ itemName: "", description: "", rentalPrice: "", category: categories[0]?._id || "" });
+      setFormData({
+        itemName: "",
+        description: "",
+        rentalPrice: "",
+        category: categories[0]?._id || "",
+      });
       setFile(null);
       // Refresh user's items
-      const res = await axios.get("/api/items/myitems", config);
-      setMyItems(res.data);
+      fetchMyItems(); // <-- 2. Call our reusable function
     } catch (error) {
       console.error(error.response?.data);
       Swal.fire("Error", "Failed to list item.", "error");
     }
   };
 
+  // --- (handleDelete is unchanged) ---
   const handleDelete = async (itemId) => {
+    // ... (no changes here)
     const result = await Swal.fire({
       title: "Delete Listing?",
       text: "Are you sure you want to permanently delete this listing? This action cannot be undone.",
@@ -104,15 +117,13 @@ function MyListingsPage() {
       try {
         await axios.delete(`/api/items/${itemId}`, {
           headers: {
-            Authorization: `Bearer ${token}`, // Send auth token
+            Authorization: `Bearer ${token}`,
           },
         });
-
         Swal.fire("Deleted!", "Listing deleted successfully.", "success");
-        
-        // Update state to remove the item from the list instantly
-        setMyItems(prevItems => prevItems.filter(item => item._id !== itemId));
-
+        setMyItems((prevItems) =>
+          prevItems.filter((item) => item._id !== itemId)
+        );
       } catch (error) {
         Swal.fire(
           "Error!",
@@ -128,38 +139,62 @@ function MyListingsPage() {
       {/* Left: My listed items */}
       <div className="my-listings-items">
         <h2 className="my-listings-title">My Listed Items</h2>
-        {myItems.length === 0 ? (
+        {loadingItems ? (
+          <p className="loading">Loading listings...</p>
+        ) : myItems.length === 0 ? (
           <p className="no-listings">You have not listed any items yet.</p>
         ) : (
           <div className="my-listings-item-grid">
             {myItems.map((item) => (
-              <Link to={`/item/${item._id}`} key={item._id} style={{ textDecoration: "none" }}>
               <div className="my-listings-item-card" key={item._id}>
-                <img src={item.imageUrl} alt={item.itemName} className="my-listings-item-img" />
-                <div className="my-listings-item-content">
-                  <div className="my-listings-item-name">{item.itemName}</div>
-                  <div className="my-listings-item-price">₹{item.rentalPrice}/day</div>
-                  <div className="my-listings-item-category">{item.category?.name}</div>
-
+                <Link
+                  to={`/item/${item._id}`}
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <img
+                    src={item.imageUrl}
+                    alt={item.itemName}
+                    className="my-listings-item-img"
+                  />
+                  <div className="my-listings-item-content">
+                    <div className="my-listings-item-name">{item.itemName}</div>
+                    <div className="my-listings-item-price">
+                      ₹{item.rentalPrice}/day
+                    </div>
+                    <div className="my-listings-item-category">
+                      {item.category?.name}
+                    </div>
+                    <p>
+                      Status:
+                      <span
+                        className={`status-badge ${item.availabilityStatus.toLowerCase()}`}
+                      >
+                        {item.availabilityStatus}
+                      </span>
+                    </p>
+                  </div>
+                </Link>
+                <div className="my-listings-actions">
                   <button
-                      className="btn btn-danger" // Use existing style from your CSS
-                      style={{ marginTop: '0.5rem', width: '100%', fontSize: '0.9rem' }}
-                      onClick={(e) => {
-                        e.preventDefault(); // Stop the Link from navigating
-                        handleDelete(item._id); // Call the delete function
-                      }}
-                    >
-                      Delete
-                    </button>
-
+                    className="btn btn-danger"
+                    style={{
+                      marginTop: "1rem",
+                      width: "100%",
+                      fontSize: "0.9rem",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleDelete(item._id);
+                    }}
+                  >
+                    Delete Listing
+                  </button>
                 </div>
               </div>
-              </Link>
             ))}
           </div>
         )}
       </div>
-      {/* Right: Create new listing form */}
       <div className="my-listings-form">
         <h1 className="my-listings-form-title">List a New Item</h1>
         <form onSubmit={onSubmit}>
@@ -198,12 +233,17 @@ function MyListingsPage() {
               placeholder="Rental Price (per day)"
               name="rentalPrice"
               value={rentalPrice}
-              onChange={onChange}
               required
+              onChange={onChange}
             />
           </div>
           <div className="form-group2">
-            <select name="category" value={category} onChange={onChange} required>
+            <select
+              name="category"
+              value={category}
+              onChange={onChange}
+              required
+            >
               {categories.map((cat) => (
                 <option key={cat._id} value={cat._id}>
                   {cat.name}

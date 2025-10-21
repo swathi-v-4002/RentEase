@@ -9,7 +9,7 @@ const itemSchema = new Schema({
   availabilityStatus: {
     type: String,
     required: true,
-    enum: ['Available', 'Rented'], // The status must be one of these values
+    enum: ['Available', 'Rented', 'Pending'], // The status must be one of these values
     default: 'Available'
   },
   owner: {

@@ -75,7 +75,6 @@ function ItemDetailsPage() {
   };
 
   const handleRent = async () => {
-    // ... (Your existing handleRent function is perfect, no changes needed)
     if (!token) return navigate("/login");
 
     try {
@@ -87,26 +86,27 @@ function ItemDetailsPage() {
         },
       };
 
+      // This endpoint now creates a "Pending" request
       await axios.post("/api/rentals", rentalData, config);
 
+      // Show a new success message
       Swal.fire({
-        title: "Success! 🥳",
-        text: "Rental Successful! View your rented item in 'My Rentals'.",
+        title: "Request Sent! 📨",
+        text: "Your rental request has been sent to the owner for approval.",
         icon: "success",
         confirmButtonColor: "#7c3aed",
       });
 
+      // Optimistically update the UI to show 'Pending'
       setItem((prevItem) => ({
         ...prevItem,
-        availabilityStatus: "Unavailable",
+        availabilityStatus: "Pending", // <-- CHANGE THIS
       }));
     } catch (error) {
       console.error(error.response?.data);
       Swal.fire({
-        title: "Rental Failed 😔",
-        text:
-          error.response?.data?.msg ||
-          "Failed to process rental. The item may be unavailable.",
+        title: "Request Failed 😔",
+        text: error.response?.data?.msg || "Failed to send rental request.",
         icon: "error",
         confirmButtonColor: "#7c3aed",
       });
@@ -120,7 +120,11 @@ function ItemDetailsPage() {
       <div className="item-details-grid">
         {/* LEFT: Image */}
         <div className="left-column">
-          <img src={item.imageUrl} alt={item.itemName} className="item-details-img" />
+          <img
+            src={item.imageUrl}
+            alt={item.itemName}
+            className="item-details-img"
+          />
         </div>
 
         {/* CENTER: Details + actions (Rent Now button below details) */}
@@ -138,9 +142,7 @@ function ItemDetailsPage() {
               <p>
                 <strong>Status:</strong>
                 <span
-                  className={`status-badge ${
-                    item.availabilityStatus === "Available" ? "available" : "unavailable"
-                  }`}
+                  className={`status-badge ${item.availabilityStatus.toLowerCase()}`}
                 >
                   {item.availabilityStatus}
                 </span>
@@ -148,12 +150,16 @@ function ItemDetailsPage() {
             </div>
           </div>
 
-          <div className="item-details-actions" style={{ marginTop: "1.25rem" }}>
-            {item.availabilityStatus === "Available" && user?.id !== item.owner?._id && (
-              <button onClick={handleRent} className="btn btn-primary">
-                Rent Now
-              </button>
-            )}
+          <div
+            className="item-details-actions"
+            style={{ marginTop: "1.25rem" }}
+          >
+            {item.availabilityStatus === "Available" &&
+              user?.id !== item.owner?._id && (
+                <button onClick={handleRent} className="btn btn-primary">
+                  Rent Now
+                </button>
+              )}
 
             {user && user.id === item.owner?._id && (
               <button onClick={handleDelete} className="btn btn-danger">
@@ -173,7 +179,9 @@ function ItemDetailsPage() {
               {reviews.map((review) => (
                 <div className="review-card item-card" key={review._id}>
                   <div className="review-header">
-                    <strong style={{ color: "#111" }}>{review.user?.name || "Anonymous"}</strong>
+                    <strong style={{ color: "#111" }}>
+                      {review.user?.name || "Anonymous"}
+                    </strong>
                     <StarRating rating={review.rating} />
                   </div>
                   <p className="review-comment">{review.comment}</p>

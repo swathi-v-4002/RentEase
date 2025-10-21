@@ -9,17 +9,18 @@ import SearchResultsPage from "./pages/SearchResultsPage";
 import ItemDetailsPage from "./pages/ItemDetailsPage";
 import PrivateRoute from "./components/PrivateRoute";
 import MyRentalsPage from "./pages/MyRentalsPage";
+import PendingApprovalsPage from "./pages/PendingApprovalsPage";
 
 function App() {
   return (
     <div>
-      <Navbar searchTerm /> 
+      <Navbar searchTerm />
       <main style={{ padding: "20px" }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/search" element={<SearchResultsPage />} /> 
+          <Route path="/search" element={<SearchResultsPage />} />
           <Route path="/item/:id" element={<ItemDetailsPage />} />
           <Route
             path="/my-rentals"
@@ -35,6 +36,14 @@ function App() {
             element={
               <PrivateRoute>
                 <MyListingsPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/pending-approvals"
+            element={
+              <PrivateRoute>
+                <PendingApprovalsPage />
               </PrivateRoute>
             }
           />

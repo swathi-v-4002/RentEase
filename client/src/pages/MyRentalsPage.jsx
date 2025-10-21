@@ -14,7 +14,7 @@ function MyRentalsPage() {
     if (!token) return navigate("/login");
 
     const { value: formValues, dismiss } = await Swal.fire({
-      title: 'Leave a Review',
+      title: "Leave a Review",
       html:
         '<select id="swal-rating" class="swal2-select mb-4">' +
         '<option value="5">5 - Excellent</option>' +
@@ -22,28 +22,28 @@ function MyRentalsPage() {
         '<option value="3">3 - Average</option>' +
         '<option value="2">2 - Fair</option>' +
         '<option value="1">1 - Poor</option>' +
-        '</select>' +
+        "</select>" +
         '<textarea id="swal-comment" class="swal2-textarea" placeholder="Share your experience..."></textarea>',
       focusConfirm: false,
       showCancelButton: true,
-      confirmButtonText: 'Submit Review',
-      confirmButtonColor: '#7c3aed',
-      cancelButtonColor: '#6b7280',
+      confirmButtonText: "Submit Review",
+      confirmButtonColor: "#7c3aed",
+      cancelButtonColor: "#6b7280",
       preConfirm: () => {
         return {
-          rating: document.getElementById('swal-rating').value,
-          comment: document.getElementById('swal-comment').value
-        }
-      }
+          rating: document.getElementById("swal-rating").value,
+          comment: document.getElementById("swal-comment").value,
+        };
+      },
     });
 
     if (!formValues || dismiss) return;
 
     try {
-      const reviewData = { 
-        rentalId, 
-        rating: Number(formValues.rating), 
-        comment: formValues.comment 
+      const reviewData = {
+        rentalId,
+        rating: Number(formValues.rating),
+        comment: formValues.comment,
       };
 
       await axios.post("/api/reviews", reviewData, {
@@ -65,11 +65,12 @@ function MyRentalsPage() {
         headers: { Authorization: `Bearer ${token}` },
       });
       setRentals(res.data);
-
     } catch (err) {
       Swal.fire({
         title: "Error!",
-        text: err.response?.data?.msg || "Failed to submit review. You may have already reviewed this rental.",
+        text:
+          err.response?.data?.msg ||
+          "Failed to submit review. You may have already reviewed this rental.",
         icon: "error",
         confirmButtonColor: "#7c3aed",
       });
@@ -103,7 +104,7 @@ function MyRentalsPage() {
             text: "Please log in again.",
             icon: "warning",
             confirmButtonColor: "#7c3aed",
-          }).then(()=>{
+          }).then(() => {
             localStorage.removeItem("token");
             navigate("/login");
           });
@@ -144,9 +145,7 @@ function MyRentalsPage() {
         await axios.delete(`/api/rentals/${rentalId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setRentals((prev) =>
-          prev.filter((rental) => rental._id !== rentalId)
-        );
+        setRentals((prev) => prev.filter((rental) => rental._id !== rentalId));
         Swal.fire({
           title: "Cancelled!",
           text: "Your rental has been successfully cancelled.",
@@ -190,17 +189,22 @@ function MyRentalsPage() {
       ) : (
         <div className="rentals-grid">
           {rentals.map((rental) => {
-            const Wrapper = rental.item ? Link : 'div';
-            const props = rental.item ? { to: `/item/${rental.item._id}`, style: { textDecoration: 'none' } } : {};
+            const Wrapper = rental.item ? Link : "div";
+            const props = rental.item
+              ? {
+                  to: `/item/${rental.item._id}`,
+                  style: { textDecoration: "none" },
+                }
+              : {};
             return (
               <Wrapper className="rental-card" key={rental._id} {...props}>
                 <img
                   src={
                     rental.item?.imageUrl
                       ? rental.item.imageUrl // Cloudinary already gives full URL
-                      : '/placeholder.png'   // fallback if no image
+                      : "/placeholder.png" // fallback if no image
                   }
-                  alt={rental.item?.itemName || 'Rental item'}
+                  alt={rental.item?.itemName || "Rental item"}
                   className="rental-image"
                 />
                 <div className="rental-info">
@@ -216,25 +220,25 @@ function MyRentalsPage() {
                 <div className="rental-actions">
                   {rental.rentalStatus === "Approved" && (
                     <button
-                      className="cancel-btn"
+                      className="btn-danger"
                       onClick={(e) => {
-                        e.preventDefault(),
-                        handleCancelRental(rental._id)}}
+                        e.preventDefault(), handleCancelRental(rental._id);
+                      }}
                     >
                       Cancel Rental
                     </button>
                   )}
 
                   {rental.rentalStatus === "Approved" && (
-                      <button
-                        className="btn btn-primary"
-                        onClick={(e) =>{
-                          e.preventDefault(),
-                          handleReviewModal(rental._id)}}
-                      >
-                        Leave a Review
-                      </button>
-                    )}
+                    <button
+                      className="btn btn-primary"
+                      onClick={(e) => {
+                        e.preventDefault(), handleReviewModal(rental._id);
+                      }}
+                    >
+                      Leave a Review
+                    </button>
+                  )}
                 </div>
               </Wrapper>
             );
