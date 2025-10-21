@@ -33,9 +33,9 @@ function LandingPage() {
             </header>
 
             {/* Features Section */}
-            <section style={{padding: '4rem 0', background: 'var(--background-color)'}}>
-                <h2 style={{textAlign: 'center', fontSize: '2.25rem', fontWeight: 700, marginBottom: '2.5rem', color: 'var(--primary-color)'}}>Why Choose Us?</h2>
-                <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '2rem', maxWidth: '90', margin: '0 auto'}}>
+            <section style={{padding: '5rem 0', background: 'var(--background-color)'}}>
+                <h2 style={{textAlign: 'center', fontSize: '2.5rem', fontWeight: 700, marginBottom: '3rem', color: 'var(--primary-color)', letterSpacing: '-0.5px',}}>Why Choose Us?</h2>
+                <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '4rem', maxWidth: '900px', margin: '0 auto', padding: '0 2rem'}}>
                     <div style={{background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '1rem', padding: '2rem', textAlign: 'center', boxShadow: '0 4px 10px rgba(0,0,0,0.05)'}}>
                         <ListIcon />
                         <h3 style={{fontSize: '1.25rem', fontWeight: 600, margin: '1rem 0'}}>List Your Items</h3>
@@ -49,7 +49,7 @@ function LandingPage() {
                     <div style={{background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '1rem', padding: '2rem', textAlign: 'center', boxShadow: '0 4px 10px rgba(0,0,0,0.05)'}}>
                         <SecureIcon />
                         <h3 style={{fontSize: '1.25rem', fontWeight: 600, margin: '1rem 0'}}>Secure & Easy</h3>
-                        <p style={{color: 'var(--subtle-text-color)'}}>A seamless rental process with secure payments and a trusted user community.</p>
+                        <p style={{color: 'var(--subtle-text-color)'}}>A seamless rental process with secure and trusted user community.</p>
                     </div>
                 </div>
             </section>
@@ -57,7 +57,7 @@ function LandingPage() {
              {/* How It Works Section */}
             <section style={{padding: '4rem 0', background: 'var(--surface-color)'}}>
                 <h2 style={{textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '2.5rem', color: 'var(--primary-color)'}}>How It Works</h2>
-                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '2rem', flexWrap: 'wrap', maxWidth: '900px', margin: '0 auto'}}>
+                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '2rem', maxWidth: '900px', margin: '0 auto'}}>
                     <div style={{flex: '1 1 220px', background: 'var(--background-color)', borderRadius: '1rem', padding: '2rem', textAlign: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.04)'}}>
                         <div style={{fontSize: '2rem', fontWeight: 700, color: 'var(--primary-color)', marginBottom: '0.5rem'}}>1</div>
                         <h3 style={{fontSize: '1.1rem', fontWeight: 600}}>Create an Account</h3>
