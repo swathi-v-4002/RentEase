@@ -18,7 +18,7 @@ function LoginPage() {
     try {
       const res = await axios.post("/api/users/login", { email, password });
       login(res.data.token);
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       console.error(error.response.data);
       Swal.fire({

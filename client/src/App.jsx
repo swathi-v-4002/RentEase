@@ -10,14 +10,16 @@ import ItemDetailsPage from "./pages/ItemDetailsPage";
 import PrivateRoute from "./components/PrivateRoute";
 import MyRentalsPage from "./pages/MyRentalsPage";
 import PendingApprovalsPage from "./pages/PendingApprovalsPage";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
   return (
     <div>
       <Navbar searchTerm />
-      <main style={{ padding: "20px" }}>
+      <main >
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/home" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/search" element={<SearchResultsPage />} />

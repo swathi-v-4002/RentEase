@@ -44,7 +44,8 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        <Link to="/" className="navbar-brand">
+        <Link to="/home" className="navbar-brand">
+          <img src="/logo.png" className="logo" />
           RentEase
         </Link>
       </div>
