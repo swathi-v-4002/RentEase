@@ -44,8 +44,10 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        <Link to="/home" className="navbar-brand">
+        <Link to="/" className="navbar-brand">
           <img src="/logo.png" className="logo" />
+        </Link>
+        <Link to="/home" className="navbar-brand">
           RentEase
         </Link>
       </div>

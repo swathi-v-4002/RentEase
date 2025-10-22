@@ -43,7 +43,8 @@ const seedCategories = async () => {
       'Books',
       'Sports & Outdoors',
       'Home & Kitchen',
-      'Toys & Games'
+      'Toys & Games',
+      'Others',
     ];
 
     console.log('Checking for default categories...');

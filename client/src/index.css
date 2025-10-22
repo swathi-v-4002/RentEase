@@ -4,7 +4,7 @@
 
 :root {
   /* --- Colors --- */
-  --primary-color: #520ace;
+  --primary-color: #580dd8;
   --primary-hover-color: #500fb8;
   --background-color: #f9fafb;
   --surface-color: #ffffff;
@@ -138,6 +138,7 @@ a:hover {
   background-color: var(--primary-hover-color);
 }
 
+
 /* --- Forms (Login, Register) --- */
 .form-container {
   max-width: 600px;
@@ -150,6 +151,12 @@ a:hover {
   text-align: center;
   animation: fadeIn 0.6s ease-in-out;
 }
+
+.register-page{
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+}
+
 .form-container h1 {
   color: var(--primary-color);
   font-size: 2rem;
@@ -228,7 +235,7 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #fff;
+  background: #f9f9f9;
   padding: 0.5rem 2rem;
   border-bottom: 1px solid var(--border-color);
   position: sticky;
@@ -238,7 +245,7 @@ a:hover {
 .navbar-left {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.25rem;
 }
 .navbar-brand {
   display: flex;          

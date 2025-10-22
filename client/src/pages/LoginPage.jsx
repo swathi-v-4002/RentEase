@@ -43,7 +43,7 @@ function LoginPage() {
             value={email}
             onChange={onChange}
             required
-          />
+            />
         </div>
         <div className="form-group">
           <input
@@ -53,13 +53,13 @@ function LoginPage() {
             value={password}
             onChange={onChange}
             required
-          />
+            />
         </div>
         <button
           type="submit"
           className="btn btn-primary"
           style={{ width: "100%" }}
-        >
+          >
           Login
         </button>
       </form>

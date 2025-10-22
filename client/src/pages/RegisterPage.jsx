@@ -46,7 +46,7 @@ function RegisterPage() {
   };
 
   return (
-    <div className="form-container">
+    <div className="form-container register-page">
       <h1>Register</h1>
       <form onSubmit={onSubmit}>
         <div className="form-group">

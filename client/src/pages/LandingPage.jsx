@@ -24,7 +24,7 @@ function LandingPage() {
     return (
     <div>
             {/* Hero Section */}
-            <header style={{background: 'linear-gradient(90deg, #5f0ceeff 0%, #a37ae3ff 100%)', color: '#fff', padding: '5rem 0', textAlign: 'center'}}>
+            <header style={{background: 'linear-gradient(90deg, #520ace 0%, #a37ae3ff 100%)', color: '#fff', padding: '5rem 0', textAlign: 'center'}}>
                 <div>
                     <h1 style={{fontSize: '3rem', fontWeight: 700, marginBottom: '1rem', color: '#ffffffff'}}>Rent Anything.Anywhere.Anytime.</h1>
                     <p style={{fontSize: '1.25rem', marginBottom: '2rem'}}>The secure and easy-to-use community marketplace for renting goods.</p>
