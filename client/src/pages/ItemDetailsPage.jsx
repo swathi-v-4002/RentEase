@@ -5,6 +5,7 @@ import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
 
+
 // A simple component to render stars
 const StarRating = ({ rating }) => {
   return (
@@ -17,6 +18,7 @@ const StarRating = ({ rating }) => {
 };
 
 function ItemDetailsPage() {
+  const [renter, setRenter] = useState(null);
   const { id } = useParams();
   const [item, setItem] = useState(null);
   const [reviews, setReviews] = useState([]); // State for reviews
@@ -24,23 +26,31 @@ function ItemDetailsPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchItemAndReviews = async () => {
-      try {
-        // Fetch item and reviews in parallel
-        const [itemRes, reviewsRes] = await Promise.all([
-          axios.get(`/api/items/${id}`),
-          axios.get(`/api/reviews/item/${id}`),
-        ]);
+  const fetchItemAndReviews = async () => {
+    try {
+      const [itemRes, reviewsRes] = await Promise.all([
+        axios.get(`/api/items/${id}`),
+        axios.get(`/api/reviews/item/${id}`)
+      ]);
 
-        setItem(itemRes.data);
-        setReviews(reviewsRes.data);
-      } catch (error) {
-        console.error("Failed to fetch item or reviews", error);
-        // Optional: Redirect to home or show an error screen if item is not found
+      setItem(itemRes.data);
+      setReviews(reviewsRes.data);
+
+      // ✅ If the item is rented, fetch the renter details
+      if (itemRes.data.availabilityStatus === "Rented") {
+        const renterRes = await axios.get(`/api/rentals/item/${id}/renter`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setRenter(renterRes.data.renter);
       }
-    };
-    fetchItemAndReviews();
-  }, [id]);
+    } catch (error) {
+      console.error("Failed to fetch item or reviews", error);
+    }
+  };
+
+  fetchItemAndReviews();
+}, [id, token]);
+
 
   const handleDelete = async () => {
     // ... (Your existing handleDelete function is perfect, no changes needed)
@@ -139,17 +149,23 @@ function ItemDetailsPage() {
               <p>
                 <strong>Owner:</strong> {item.owner?.name || "N/A"}
               </p>
+
+
               <p>
                 <strong>Status:</strong>
                 <span
                   className={`status-badge ${item.availabilityStatus.toLowerCase()}`}
-                >
+                  >
                   {item.availabilityStatus}
                 </span>
               </p>
+              {item.availabilityStatus === "Rented" && renter && (
+                <p>
+                  <strong>Rented By:</strong> {renter.name}
+                </p>
+              )}
             </div>
           </div>
-
           <div
             className="item-details-actions"
             style={{ marginTop: "1.25rem" }}

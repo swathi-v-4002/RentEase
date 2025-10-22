@@ -208,16 +208,6 @@ function MyListingsPage() {
               required
             />
           </div>
-          {/* <div className="form-group2 upload-file-input">
-            <label>Image</label>
-            <input
-              type="file"
-              name="itemImage"
-              onChange={onFileChange}
-              required
-              style={{ padding: "10px", border: "none" }}
-            />
-          </div> */}
 
           <div className="form-group2 upload-file-input" >
             <label

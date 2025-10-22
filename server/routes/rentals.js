@@ -213,4 +213,41 @@ router.get('/myrentals', auth, async (req, res) => {
   }
 });
 
+// @route   GET api/rentals/item/:itemId/renter
+// @desc    Get renter details for a rented item
+// @access  Private
+router.get('/item/:itemId/renter', auth, async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.itemId);
+
+    if (!item) {
+      return res.status(404).json({ msg: 'Item not found' });
+    }
+
+    // Only proceed if item is rented
+    if (item.availabilityStatus !== 'Rented') {
+      return res.status(400).json({ msg: 'Item is not currently rented.' });
+    }
+
+    // Find the approved rental for this item
+    const rental = await Rental.findOne({
+      item: item._id,
+      rentalStatus: 'Approved'
+    }).populate('renter', 'name email');
+
+    if (!rental) {
+      return res.status(404).json({ msg: 'Renter not found for this item.' });
+    }
+
+    res.json({
+      itemId: item._id,
+      renter: rental.renter
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+
 module.exports = router;
