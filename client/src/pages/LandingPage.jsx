@@ -36,17 +36,17 @@ function LandingPage() {
             <section style={{padding: '5rem 0', background: 'var(--background-color)'}}>
                 <h2 style={{textAlign: 'center', fontSize: '2.5rem', fontWeight: 700, marginBottom: '3rem', color: 'var(--primary-color)', letterSpacing: '-0.5px',}}>Why Choose Us?</h2>
                 <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '4rem', maxWidth: '900px', margin: '0 auto', padding: '0 2rem'}}>
-                    <div style={{background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '1rem', padding: '2rem', textAlign: 'center', boxShadow: '0 4px 10px rgba(0,0,0,0.05)'}}>
+                    <div style={{background: 'var(--surface-color)', border: 'none', borderRadius: 'var(--radius-lg)', padding: '2rem', textAlign: 'center', boxShadow: 'var(--shadow-md)'}}>
                         <ListIcon />
                         <h3 style={{fontSize: '1.25rem', fontWeight: 600, margin: '1rem 0'}}>List Your Items</h3>
                         <p style={{color: 'var(--subtle-text-color)'}}>Earn money by renting out your unused items to people nearby.</p>
                     </div>
-                    <div style={{background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '1rem', padding: '2rem', textAlign: 'center', boxShadow: '0 4px 10px rgba(0,0,0,0.05)'}}>
+                    <div style={{background: 'var(--surface-color)', border: 'none', borderRadius: 'var(--radius-lg)', padding: '2rem', textAlign: 'center', boxShadow: 'var(--shadow-md)'}}>
                         <RentIcon />
                         <h3 style={{fontSize: '1.25rem', fontWeight: 600, margin: '1rem 0'}}>Rent Anything</h3>
                         <p style={{color: 'var(--subtle-text-color)'}}>Find what you need, from power tools to party supplies, right in your neighborhood.</p>
                     </div>
-                    <div style={{background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '1rem', padding: '2rem', textAlign: 'center', boxShadow: '0 4px 10px rgba(0,0,0,0.05)'}}>
+                    <div style={{background: 'var(--surface-color)', border: 'none', borderRadius: 'var(--radius-lg)', padding: '2rem', textAlign: 'center', boxShadow: 'var(--shadow-md)'}}>
                         <SecureIcon />
                         <h3 style={{fontSize: '1.25rem', fontWeight: 600, margin: '1rem 0'}}>Secure & Easy</h3>
                         <p style={{color: 'var(--subtle-text-color)'}}>A seamless rental process with secure and trusted user community.</p>
@@ -58,19 +58,19 @@ function LandingPage() {
             <section style={{padding: '4rem 0', background: 'var(--surface-color)'}}>
                 <h2 style={{textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '2.5rem', color: 'var(--primary-color)'}}>How It Works</h2>
                 <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '2rem', maxWidth: '900px', margin: '0 auto'}}>
-                    <div style={{flex: '1 1 220px', background: 'var(--background-color)', borderRadius: '1rem', padding: '2rem', textAlign: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.04)'}}>
+                    <div style={{flex: '1 1 220px', background: 'var(--background-color)', borderRadius: 'var(--radius-lg)', padding: '2rem', textAlign: 'center', boxShadow: 'var(--shadow-sm)'}}>
                         <div style={{fontSize: '2rem', fontWeight: 700, color: 'var(--primary-color)', marginBottom: '0.5rem'}}>1</div>
                         <h3 style={{fontSize: '1.1rem', fontWeight: 600}}>Create an Account</h3>
                         <p style={{color: 'var(--subtle-text-color)'}}>Sign up in minutes and get ready to start renting or listing.</p>
                     </div>
                     <div style={{fontSize: '2rem', color: 'var(--primary-color)', fontWeight: 700}}>&rarr;</div>
-                    <div style={{flex: '1 1 220px', background: 'var(--background-color)', borderRadius: '1rem', padding: '2rem', textAlign: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.04)'}}>
+                    <div style={{flex: '1 1 220px', background: 'var(--background-color)', borderRadius: 'var(--radius-lg)', padding: '2rem', textAlign: 'center', boxShadow: 'var(--shadow-sm)'}}>
                         <div style={{fontSize: '2rem', fontWeight: 700, color: 'var(--primary-color)', marginBottom: '0.5rem'}}>2</div>
                         <h3 style={{fontSize: '1.1rem', fontWeight: 600}}>Browse or List</h3>
                         <p style={{color: 'var(--subtle-text-color)'}}>Search for items you need or list your own items for others to rent.</p>
                     </div>
                     <div style={{fontSize: '2rem', color: 'var(--primary-color)', fontWeight: 700}}>&rarr;</div>
-                    <div style={{flex: '1 1 220px', background: 'var(--background-color)', borderRadius: '1rem', padding: '2rem', textAlign: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.04)'}}>
+                    <div style={{flex: '1 1 220px', background: 'var(--background-color)', borderRadius: 'var(--radius-lg)', padding: '2rem', textAlign: 'center', boxShadow: 'var(--shadow-sm)'}}>
                         <div style={{fontSize: '2rem', fontWeight: 700, color: 'var(--primary-color)', marginBottom: '0.5rem'}}>3</div>
                         <h3 style={{fontSize: '1.1rem', fontWeight: 600}}>Connect & Transact</h3>
                         <p style={{color: 'var(--subtle-text-color)'}}>Arrange rental details through our platform.</p>
