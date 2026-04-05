@@ -37,27 +37,10 @@ router.post('/', auth, upload.single('itemImage'), async (req, res) => {
   }
 });
 
-// @route   GET /api/items
-// @desc    Get all rental items
-// @access  Public
-router.get('/',authOptional ,async (req, res) => {
-  try {
-    let query = { availabilityStatus: 'Available' };
-    if(req.user && req.user.id){
-      query.owner = { $ne: req.user.id }; // Exclude items owned by the requester
-    }
-    const items = await Item.find(query).populate('owner', 'name').populate('category', 'name');
-    res.json(items);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-
 // @route   GET /api/items/search
 // @desc    Search for items by name, description, or category name
 // @access  Public (filters out user's own items if logged in)
-router.get('/search', authOptional, async (req, res) => { // <-- 1. Add authOptional
+router.get('/search', authOptional, async (req, res) => { // <-- MOVED BEFORE /:id
   try {
     const { q } = req.query;
     
@@ -106,7 +89,7 @@ router.get('/search', authOptional, async (req, res) => { // <-- 1. Add authOpti
   }
 });
 
-router.get('/myitems', auth, async (req, res) => {
+router.get('/myitems', auth, async (req, res) => { // <-- MOVED BEFORE /:id
   try {
     // This route now *only* finds your items.
     const items = await Item.find({ owner: req.user.id })
@@ -117,6 +100,22 @@ router.get('/myitems', auth, async (req, res) => {
 
   } catch (err) {
     console.error('Error in /myitems:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// @route   GET /api/items
+// @desc    Get all rental items
+// @access  Public
+router.get('/',authOptional ,async (req, res) => {
+  try {
+    let query = { availabilityStatus: 'Available' };
+    if(req.user && req.user.id){
+      query.owner = { $ne: req.user.id }; // Exclude items owned by the requester
+    }
+    const items = await Item.find(query).populate('owner', 'name').populate('category', 'name');
+    res.json(items);
+  } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
